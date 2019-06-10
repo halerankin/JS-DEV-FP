@@ -1,0 +1,41 @@
+// Utility Classes
+//
+// ------------------
+
+// Buttons
+button {
+    background: none;
+    border: 0;
+    cursor: pointer;
+    padding: 5px 20px;
+    text-align: center;
+}
+ 
+// Forms
+input {
+    appearance: none;
+    -webkit-appearance: none;
+    background: none;
+    border: 0;
+	border-radius: 0;
+}
+
+input[type="text"] {
+	background: none;
+    color: $color-white;
+    font-size: 20px;
+    font-weight: 300;
+    height: 100%;
+    letter-spacing: -0.5px;
+    padding-left: 30px;
+    text-transform: capitalize;
+    width: 81%;
+
+    &::placeholder {
+        color: $color-white;
+        font-size: 20px;
+        font-weight: 300;
+        letter-spacing: -0.5px;
+        padding: 4px;
+    }
+}

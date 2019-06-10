@@ -1,0 +1,45 @@
+// Fonts & Typography 
+//
+// ------------------
+
+
+// Fonts - Open Sans (Google)
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700');
+
+
+// Typography
+*, body {
+	font-family: $main-font;
+	font-size: $base-font-size;
+	font-weight: $base-font-weight;	
+}
+
+i {
+	color: $color-black-alpha-40;
+	font-size: 15px;
+	line-height: 13px;
+}
+
+p {
+	margin: 0;
+}
+
+h1 {
+    color: $color-white;
+	font-size: 140px;
+    letter-spacing: -5px;
+    line-height: 122px;
+    margin: 7px 0 4px;
+}
+
+h2 {
+	color: $color-black-alpha-40;
+	margin: 0;
+}
+
+h3 {
+	color: $color-black;
+	font-size: 16px;
+	font-weight: 700;
+	margin: 0;
+}
