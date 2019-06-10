@@ -15,14 +15,20 @@ export default class Forecast extends React.Component {
             tempHigh: undefined, // highest forecast temp
             tempLow: undefined, // lowest forecast temp
             description: undefined
+            // May have to build out five states of each above for five days.
+            //
+            
         }
     }
-    componentDidMount() {
+
+    fetchData() {
         const connectString = `${baseApiUrl}?q=${this.props.cityNameFromParent}&units=${_units}&appid=${_appId}`;
-        
         fetch(connectString)
             .then(response => response.json())
             .then( data => {
+                // foreach over data before setting state.
+                //  - Filter by first 10chars of `dt_text` and if matching
+                //      -- get lowest low and highest high.
                 this.setState({
                     date: new Date(data.list[0].dt_txt.replace(' ','T') + 'Z'),
                     icon: data.list[0].weather[0].icon,
@@ -37,27 +43,13 @@ export default class Forecast extends React.Component {
                 });
             });
     }
-
+    
+    componentDidMount() {
+        this.fetchData();
+    }
     componentDidUpdate(prevProps) {
-        const connectString = `${baseApiUrl}?q=${this.props.cityNameFromParent}&units=${_units}&appid=${_appId}`;
-
         if (this.props.cityNameFromParent !== prevProps.cityNameFromParent) {
-            fetch(connectString)
-            .then(response => response.json())
-            .then( data => {
-                this.setState({
-                    date: new Date(data.list[0].dt_txt.replace(' ','T') + 'Z'),
-                    icon: data.list[0].weather[0].icon,
-                    tempHigh: data.list[0].main.temp_max,
-                    tempLow: data.list[0].main.temp_min,
-                    description: data.list[0].weather[0].description
-                });
-            })
-            .catch(error => {
-                this.setState({
-                    hasError: true
-                });
-            });
+            this.fetchData();
         }
     }
 
@@ -66,7 +58,7 @@ export default class Forecast extends React.Component {
         const monthDay = new Intl.DateTimeFormat('en-US', {month: 'short', day: 'numeric'}).format(this.state.date);
         return (
             <li>
-                <h2>{monthDay} </h2>
+                <h2>{monthDay}</h2>
                 <img src={iconPath} alt={this.state.description} />
                 <h3>{Math.round(this.state.tempHigh).toString()}</h3>
                 <p>{Math.round(this.state.tempLow).toString()}</p>

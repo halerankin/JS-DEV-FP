@@ -12,11 +12,12 @@ export default class CurrentWeather extends React.Component {
             temperature: undefined,
             humidity: undefined,
             description: undefined,
-            city: undefined
+            city: undefined,
+            country: undefined
         }
     }
-    componentDidMount() {
-        
+
+    fetchData() {
         const connectString = `${baseApiUrl}?q=${this.props.cityNameFromParent}&units=${_units}&appid=${_appId}`;
         fetch(connectString)
             .then(response => response.json())
@@ -25,7 +26,8 @@ export default class CurrentWeather extends React.Component {
                     temperature: data.main.temp,
                     description: data.weather[0].description,
                     humidity: data.main.humidity,
-                    city: data.name
+                    city: data.name,
+                    country: data.sys.country
                 });
             })
             .catch(error => {
@@ -34,25 +36,13 @@ export default class CurrentWeather extends React.Component {
                 });
             });
     }
-    componentDidUpdate(prevProps) {
 
-        const connectString = `${baseApiUrl}?q=${this.props.cityNameFromParent}&units=${_units}&appid=${_appId}`;
+    componentDidMount() {
+        this.fetchData();
+    }
+    componentDidUpdate(prevProps) {
         if (this.props.cityNameFromParent !== prevProps.cityNameFromParent) {
-            fetch(connectString)
-            .then(response => response.json())
-            .then( data => {
-                this.setState({
-                    temperature: data.main.temp,
-                    description: data.weather[0].description,
-                    humidity: data.main.humidity,
-                    city: data.name
-                });
-            })
-            .catch(error => {
-                this.setState({
-                    hasError: true
-                });
-            });
+            this.fetchData();
         }
     }
 
@@ -67,7 +57,7 @@ export default class CurrentWeather extends React.Component {
                     <p id="temperature-type">F</p>
                     <p id="current-condition">{this.state.description}</p>
                     <p id="current-humidity">{this.state.humidity}% Humidity</p>
-                    <p>{this.state.city}</p>			
+                    <p>{this.state.city}, {this.state.country}</p>			
                 </div>
             </section>
         );
