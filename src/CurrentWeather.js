@@ -12,13 +12,12 @@ export default class CurrentWeather extends React.Component {
             temperature: undefined,
             humidity: undefined,
             description: undefined,
-            city: undefined,
-            _city: this.props.cityNameFromParent
+            city: undefined
         }
     }
     componentDidMount() {
-        const connectString = `${baseApiUrl}?q=${this.state._city}&units=${_units}&appid=${_appId}`;
-
+        
+        const connectString = `${baseApiUrl}?q=${this.props.cityNameFromParent}&units=${_units}&appid=${_appId}`;
         fetch(connectString)
             .then(response => response.json())
             .then( data => {
@@ -35,6 +34,28 @@ export default class CurrentWeather extends React.Component {
                 });
             });
     }
+    componentDidUpdate(prevProps) {
+
+        const connectString = `${baseApiUrl}?q=${this.props.cityNameFromParent}&units=${_units}&appid=${_appId}`;
+        if (this.props.cityNameFromParent !== prevProps.cityNameFromParent) {
+            fetch(connectString)
+            .then(response => response.json())
+            .then( data => {
+                this.setState({
+                    temperature: data.main.temp,
+                    description: data.weather[0].description,
+                    humidity: data.main.humidity,
+                    city: data.name
+                });
+            })
+            .catch(error => {
+                this.setState({
+                    hasError: true
+                });
+            });
+        }
+    }
+
     render() {
         console.log('CurrWeather props: ', this.props);
 
