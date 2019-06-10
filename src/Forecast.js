@@ -4,7 +4,7 @@ const baseApiUrl = 'https://api.openweathermap.org/data/2.5/forecast';
 const baseIconPath = 'http://openweathermap.org/img/w/';
 const _appId = '54c0f6b126e1f9bb89e6249bad4dc7e5';
 const _units = 'imperial';
-
+const _city = 'Seattle';
 
 export default class Forecast extends React.Component {
     constructor(props) {
@@ -15,12 +15,11 @@ export default class Forecast extends React.Component {
             icon: undefined,
             tempHigh: undefined, // highest forecast temp
             tempLow: undefined, // lowest forecast temp
-            description: undefined,
-            _city: this.props.cityNameFromParent
+            description: undefined
         }
     }
     componentDidMount() {
-        const connectString = `${baseApiUrl}?q=${this.state._city}&units=${_units}&appid=${_appId}`;
+        const connectString = `${baseApiUrl}?q=${_city}&units=${_units}&appid=${_appId}`;
         
         fetch(connectString)
             .then(response => response.json())

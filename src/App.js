@@ -4,31 +4,17 @@ import CurrentWeather from './CurrentWeather';
 import Forecast from './Forecast';
 
 class App extends React.Component {
-  constructor(){
-    super()
-    this.state = {
-      userCity: 'Seattle'
-    }
-  }
-
-  inputCallback = (dataFromChild) => {
-    this.setState(prevState => {
-      return {
-        userCity: dataFromChild
-      }
-    }) 
-  }
   
   render() {
     return (
       <div className="App">
-        <SearchBox callbackFromParent={this.inputCallback} />
+        <SearchBox />
         <div className="WeatherBox">
           <div id="current-day">
-            <CurrentWeather cityNameFromParent={this.state.userCity} />  
+            <CurrentWeather />  
           </div>
           <ul>
-            <Forecast cityNameFromParent={this.state.userCity} />
+            <Forecast />
           </ul>
 			  </div>
       </div>

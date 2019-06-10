@@ -3,6 +3,7 @@ import React from 'react';
 const baseApiUrl = 'https://api.openweathermap.org/data/2.5/weather';
 const _appId = '54c0f6b126e1f9bb89e6249bad4dc7e5';
 const _units = 'imperial';
+const _city = 'Seattle';
 
 export default class CurrentWeather extends React.Component {
     constructor(props) {
@@ -12,12 +13,11 @@ export default class CurrentWeather extends React.Component {
             temperature: undefined,
             humidity: undefined,
             description: undefined,
-            city: undefined,
-            _city: this.props.cityNameFromParent
+            city: undefined
         }
     }
     componentDidMount() {
-        const connectString = `${baseApiUrl}?q=${this.state._city}&units=${_units}&appid=${_appId}`;
+        const connectString = `${baseApiUrl}?q=${_city}&units=${_units}&appid=${_appId}`;
 
         fetch(connectString)
             .then(response => response.json())
@@ -36,8 +36,6 @@ export default class CurrentWeather extends React.Component {
             });
     }
     render() {
-        console.log('CurrWeather props: ', this.props);
-
         return(
             <section className="CurrentWeather">
                 <h1 id="current-temp">{Math.round(this.state.temperature).toString()}</h1>

@@ -18,13 +18,10 @@ export default class SearchBox extends React.Component {
     }
     handleSubmit = (event) => {
         event.preventDefault();
-        this.props.callbackFromParent(this.state.newCity);
         console.log('! submitted !', this.state.newCity);
     }
 
     render() {
-        console.log('Search props: ', this.props);
-
         return (
             <div className="SearchBox">
                 <form onSubmit={this.handleSubmit}>
