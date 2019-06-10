@@ -47,8 +47,6 @@ export default class CurrentWeather extends React.Component {
     }
 
     render() {
-        console.log('CurrWeather props: ', this.props);
-
         return(
             <section className="CurrentWeather">
                 <h1 id="current-temp">{Math.round(this.state.temperature).toString()}</h1>

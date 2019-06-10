@@ -27,14 +27,10 @@ class App extends React.Component {
           <div id="current-day">
             <CurrentWeather cityNameFromParent={this.state.userCity} />  
           </div>
-          <ul>
-            <Forecast cityNameFromParent={this.state.userCity} />
-          </ul>
+          <Forecast cityNameFromParent={this.state.userCity} />
 			  </div>
       </div>
     );
   }
-
 }
-
 export default App;
