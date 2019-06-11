@@ -19,18 +19,18 @@ export default class SearchBox extends React.Component {
 
     handleSubmit = (event) => {
         event.preventDefault();
-        this.props.callbackFromParent(this.state.newCity);
-        console.log('! submitted !', this.state.newCity);
+        if(document.getElementById('city').value !== ''){
+            this.props.callbackFromParent(this.state.newCity);
+        }
     }
 
     clearInput = (event) => {
-        console.log('clicked clear');
+        document.getElementById('city').value = '';
         this.setState(prevState => {
             return {
                 newCity: ''
             }
         })
-        document.getElementById('city').value = '';
     }
 
     render() {
@@ -39,7 +39,7 @@ export default class SearchBox extends React.Component {
                 <form onSubmit={this.handleSubmit}>
                     <input onChange={this.onChange} id="city" name="city" type="text" placeholder="Enter a city name" />
                     <button id="submit-city" type="submit"><i className="fa fa-search" aria-hidden="true"></i></button>
-                    <button onChange={this.clearInput} id="clear-input" type="button"><i className="fa fa-times" aria-hidden="true"></i></button>
+                    <button onClick={this.clearInput} id="clear-input" type="button"><i className="fa fa-times" aria-hidden="true"></i></button>
                 </form>
 			</div>
         );

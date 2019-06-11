@@ -41,7 +41,7 @@ export default class Forecast extends React.Component {
 
     componentDidUpdate(prevProps) {
         _forecasts = [];
-        
+
         if (this.props.cityNameFromParent !== prevProps.cityNameFromParent) {     
             this.fetchData();
         }
@@ -56,7 +56,6 @@ export default class Forecast extends React.Component {
         let Icon = '04d';
         
         for (let i = 0; i < this.state.data.length; i++){            
-            let currDateTime = this.state.data[i].dt_txt;
             let currDate = this.state.data[i].dt_txt.substring(0, 10);
 
             //exclude records for current day. We only want next 5 days.
@@ -64,8 +63,10 @@ export default class Forecast extends React.Component {
                 if(currDate === prevDate) {
                     currLow = this.state.data[i].main.temp_min;
                     currHigh = this.state.data[i].main.temp_max;
+                    Description = this.state.data[i].weather[0].description;          
+                    Icon = this.state.data[i].weather[0].icon;
                     
-                    console.log('temps: L '+currLow +',H '+ currHigh + ', date '+ currDateTime + ' -- '+ i + ', Max: '+ this.state.data[i].main.temp_max + ', Min: ' + this.state.data[i].main.temp_min + ', Desc: ' + this.state.data[i].weather[0].description);
+                    //console.log('temps: L '+currLow +',H '+ currHigh + ', date '+ this.state.data[i].dt_txt + ' -- '+ i + ', Max: '+ this.state.data[i].main.temp_max + ', Min: ' + this.state.data[i].main.temp_min + ', Desc: ' + this.state.data[i].weather[0].description);
 
                     // Update min/max temp
                     if( currLow > this.state.data[i].main.temp_min) {
@@ -73,13 +74,7 @@ export default class Forecast extends React.Component {
                     }                            
                     if( currHigh < this.state.data[i].main.temp_max) {
                         currHigh = this.state.data[i].main.temp_max;
-                    }          
-                    // Set description
-                    // if(currDateTime.includes('21:00:00')) {
-                        Description = this.state.data[i].weather[0].description;          
-                        Icon = this.state.data[i].weather[0].icon;
-                    // }          
-                    
+                    }                              
                 } else {                    
                     _forecasts.push({
                         "date": new Date(this.state.data[i].dt_txt.replace(' ','T') + 'Z'),
