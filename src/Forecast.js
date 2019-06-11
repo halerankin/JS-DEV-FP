@@ -4,7 +4,7 @@ const baseApiUrl = 'https://api.openweathermap.org/data/2.5/forecast';
 const baseIconPath = 'http://openweathermap.org/img/w/';
 const _appId = '54c0f6b126e1f9bb89e6249bad4dc7e5';
 const _units = 'imperial';
-const _forecasts = [];
+let _forecasts = [];
 
 export default class Forecast extends React.Component {
     constructor(props) {
@@ -35,11 +35,14 @@ export default class Forecast extends React.Component {
     }
     
     componentDidMount() {
+        _forecasts = [];
         this.fetchData();
     }
 
     componentDidUpdate(prevProps) {
-        if (this.props.cityNameFromParent !== prevProps.cityNameFromParent) {
+        _forecasts = [];
+        
+        if (this.props.cityNameFromParent !== prevProps.cityNameFromParent) {     
             this.fetchData();
         }
     }
