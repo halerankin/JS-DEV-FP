@@ -40,6 +40,7 @@ export default class CurrentWeather extends React.Component {
     componentDidMount() {
         this.fetchData();
     }
+    
     componentDidUpdate(prevProps) {
         if (this.props.cityNameFromParent !== prevProps.cityNameFromParent) {
             this.fetchData();

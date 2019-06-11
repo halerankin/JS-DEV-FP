@@ -37,48 +37,56 @@ export default class Forecast extends React.Component {
     componentDidMount() {
         this.fetchData();
     }
+
     componentDidUpdate(prevProps) {
         if (this.props.cityNameFromParent !== prevProps.cityNameFromParent) {
             this.fetchData();
         }
     }
-    componentWillMount() {}
 
     render() {
-
-        const counter = this.state.data.length;
         let today = new Date().toISOString().substring(0,10);
-        let prevDatePart = null;
+        let prevDate = null;
         let currHigh = null;
         let currLow = null;
+        let Description = null;
+        let Icon = '04d';
         
-        for (let i = 0; i < counter; i++){            
-            
+        for (let i = 0; i < this.state.data.length; i++){            
+            let currDateTime = this.state.data[i].dt_txt;
             let currDate = this.state.data[i].dt_txt.substring(0, 10);
 
             //exclude records for current day. We only want next 5 days.
-            if(currDate !== today) {                        
-                if(currDate === prevDatePart) {
+            if(currDate !== today) {
+                if(currDate === prevDate) {
                     currLow = this.state.data[i].main.temp_min;
                     currHigh = this.state.data[i].main.temp_max;
                     
-                    if( this.state.data[i].main.temp_min < currLow) {
+                    console.log('temps: L '+currLow +',H '+ currHigh + ', date '+ currDateTime + ' -- '+ i + ', Max: '+ this.state.data[i].main.temp_max + ', Min: ' + this.state.data[i].main.temp_min + ', Desc: ' + this.state.data[i].weather[0].description);
+
+                    // Update min/max temp
+                    if( currLow > this.state.data[i].main.temp_min) {
                         currLow = this.state.datalist[i].main.temp_min;
                     }                            
-                    if( this.state.data[i].main.temp_max > currHigh) {
+                    if( currHigh < this.state.data[i].main.temp_max) {
                         currHigh = this.state.data[i].main.temp_max;
-                    }
-                } else {
+                    }          
+                    // Set description
+                    // if(currDateTime.includes('21:00:00')) {
+                        Description = this.state.data[i].weather[0].description;          
+                        Icon = this.state.data[i].weather[0].icon;
+                    // }          
+                    
+                } else {                    
                     _forecasts.push({
-                        "index": i,
                         "date": new Date(this.state.data[i].dt_txt.replace(' ','T') + 'Z'),
-                        "iconPath": `${baseIconPath}${this.state.data[i].weather[0].icon}.png`,
-                        "tempHigh": currHigh,
+                        "iconPath": `${baseIconPath}${Icon}.png`,
                         "tempLow": currLow,
-                        "description": this.state.data[i].weather[0].description
+                        "tempHigh": currHigh,
+                        "description": Description
                     })
                 }                                
-                prevDatePart = currDate; 
+                prevDate = currDate; 
             }
         }
 
