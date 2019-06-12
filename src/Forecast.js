@@ -1,7 +1,7 @@
 import React from 'react';
 
 const baseApiUrl = 'https://api.openweathermap.org/data/2.5/forecast';
-const baseIconPath = 'http://openweathermap.org/img/w/';
+const baseIconPath = 'https://openweathermap.org/img/w/';
 const _appId = '54c0f6b126e1f9bb89e6249bad4dc7e5';
 const _units = 'imperial';
 let _forecasts = [];
