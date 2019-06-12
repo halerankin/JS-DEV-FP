@@ -60,22 +60,7 @@ export default class Forecast extends React.Component {
 
             //exclude records for current day. We only want next 5 days.
             if(currDate !== today) {
-                if(currDate === prevDate) {
-                    currLow = this.state.data[i].main.temp_min;
-                    currHigh = this.state.data[i].main.temp_max;
-                    Description = this.state.data[i].weather[0].description;          
-                    Icon = this.state.data[i].weather[0].icon;
-                    
-                    //console.log('temps: L '+currLow +',H '+ currHigh + ', date '+ this.state.data[i].dt_txt + ' -- '+ i + ', Max: '+ this.state.data[i].main.temp_max + ', Min: ' + this.state.data[i].main.temp_min + ', Desc: ' + this.state.data[i].weather[0].description);
-
-                    // Update min/max temp
-                    if( currLow > this.state.data[i].main.temp_min) {
-                        currLow = this.state.datalist[i].main.temp_min;
-                    }                            
-                    if( currHigh < this.state.data[i].main.temp_max) {
-                        currHigh = this.state.data[i].main.temp_max;
-                    }                              
-                } else {                    
+                if(currDate !== prevDate && prevDate !== null) {
                     _forecasts.push({
                         "date": new Date(this.state.data[i].dt_txt.replace(' ','T') + 'Z'),
                         "iconPath": `${baseIconPath}${Icon}.png`,
@@ -83,6 +68,23 @@ export default class Forecast extends React.Component {
                         "tempHigh": currHigh,
                         "description": Description
                     })
+                    
+                } else {
+                    currLow = this.state.data[i].main.temp_min;
+                    currHigh = this.state.data[i].main.temp_max;
+                    Description = this.state.data[i].weather[0].description;          
+                    Icon = this.state.data[i].weather[0].icon;
+                    
+                    console.log('temps: L '+currLow +',H '+ currHigh + ', date '+ this.state.data[i].dt_txt + ' -- '+ i + ', Max: '+ this.state.data[i].main.temp_max + ', Min: ' + this.state.data[i].main.temp_min + ', Desc: ' + this.state.data[i].weather[0].description);
+                    
+                    // Update min/max temp
+                    if( this.state.data[i].main.temp_min < currLow) {
+                        currLow = this.state.datalist[i].main.temp_min;
+                    }                            
+                    if( this.state.data[i].main.temp_max > currHigh) {
+                        currHigh = this.state.data[i].main.temp_max;
+                    }                              
+
                 }                                
                 prevDate = currDate; 
             }
